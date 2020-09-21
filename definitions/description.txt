@@ -1,0 +1,13 @@
+1 - Editar e inserir textos.
+2 - Alterar parâmetros inicias (bpm, nota, oitava, instrumento, volume)
+3 - Funções de Player
+    - Reproduzir
+    - Pausar
+    - Parar
+    - Gravar
+4 - Carregar input de um arquivo (texto, bpm, instrumentos, volume)
+5 - Reproduzir o texto seguindo um conjunto de regras
+    - Tocar Nota
+    - Alterar Volume
+    - Alterar Oitava
+    - Alterar Instrumento
