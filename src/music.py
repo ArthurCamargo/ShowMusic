@@ -11,4 +11,6 @@ class Music:
         self.active_channels = active_channels
         self.bpm = bpm
 
-
+    def printMusic():
+        """ Prints the music to save it in a file """
+        pass
