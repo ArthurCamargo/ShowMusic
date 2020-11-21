@@ -3,9 +3,6 @@ from pygame import midi
 class Note:
     """ Class of musical notes """
     def __init__(self, name, note_number, octave=4):
-        self.name = name
-        self.note_number = note_number
-        self.octave = octave
         #Name of the note
         self.name = name
         #Midi number of the note

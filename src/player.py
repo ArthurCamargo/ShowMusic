@@ -1,3 +1,4 @@
+import pygame
 from pygame import midi
 
 class Player:
@@ -14,28 +15,21 @@ class Player:
 
     def playMusic():
         """ Play a given music """
-        pass
 
     def pauseMusic():
         """ Pause the music already in play, if it’s played again, start from where it was paused """
-        pass
 
     def stopMusic():
         """ Stop the music already in play, if it’s played again, start from the beginning """
-        pass
 
     def increaseVolume():
         """ Raise the volume of the player """
-        pass
 
     def decreaseVolume():
         """ Lower the volume of the player """
-        pass
 
     def increaseBpm():
         """ Increases the current Bpm """
-        pass
 
     def decreaseBpm():
         """ Decreases the value of the Bpm """
-        pass

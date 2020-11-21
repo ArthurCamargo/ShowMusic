@@ -1,7 +1,7 @@
 from pygame import midi
 
 class Music:
-    """ 
+    """
     Class that manage the channels, instruments,
         notes and composes the music in general
     """

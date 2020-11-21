@@ -1,4 +1,7 @@
 import tkinter as tk
+from tkinter.filedialog import askopenfilename, asksaveasfilename
+from editor import Editor
+from player import Player
 
 class Gui(tk.Frame):
     """
@@ -9,19 +12,76 @@ class Gui(tk.Frame):
         super().__init__(master)
         self.master = master
         self.grid()
+        self.editor = Editor(master)
+        #self.player = Player()
         self.create_widgets()
 
     def operational_widgets(self):
+        """ Operational Widgets
+
+            Buttons:
+
+                Save: Saves the file
+                Open: Open the file
+                Quit: Quit the app"""
+        save_button = tk.Button(self, text="Save", command=self.save_file)
+        open_button = tk.Button(self, text="Load", command=self.open_file)
         quit_button = tk.Button(self, text="Quit", command=self.master.destroy)
-        quit_button.grid(row = 6, column = 0)
+
+        quit_button.grid(row = 6, column = 6)
+        save_button.grid(row = 6, column = 7)
+        open_button.grid(row = 6, column = 8)
+
+    def save_file(self):
+        """Save the current file as a new file."""
+        filepath = asksaveasfilename(
+            defaultextension="txt",
+            filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")],
+        )
+        if not filepath:
+            return
+        with open(filepath, "w") as output_file:
+            text = self.editor.txt_area.get(1.0, tk.END)
+            output_file.write(text)
+
+    def open_file(self):
+        """Open a file for editing."""
+        filepath = askopenfilename(
+            filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
+        )
+        if not filepath:
+            return
+        self.editor.txt_area.delete(1.0, tk.END)
+        with open(filepath, "r") as input_file:
+            text = input_file.read()
+            self.editor.txt_area.insert(tk.END, text)
 
     def music_widgets(self):
-        pass
+        """ Music related Widgets
 
-    def parser_widgets(self):
-        pass
+            Buttons:
+                Play/Pause: Plays and pauses the music
+                Stop: Stop the music
+                Compile: Compile the song into the music"""
+
+        frame_music = tk.Frame(self, relief=tk.RAISED)
+        frame_music.grid(row = 6, column = 1)
+
+        play_pause_button= tk.Button(frame_music, text='play',
+                                compound = tk.CENTER)
+
+        stop_button= tk.Button(frame_music, text='stop',
+                                  compound = tk.CENTER)
+
+        compile_button= tk.Button(frame_music, text='compile',
+                               compound = tk.CENTER, command=self.save_file)
+
+        play_pause_button.grid(row = 0, column = 0)
+        stop_button.grid(row = 0, column = 1)
+        compile_button.grid(row = 0, column = 2)
 
     def instruments_widgets(self):
+        """ Instrument related Widgets """
         frame_instruments = tk.Frame(self, relief=tk.RAISED)
         frame_instruments.grid(row = 0, column = 0)
 
@@ -47,28 +107,26 @@ class Gui(tk.Frame):
         church_organ = tk.Button(frame_instruments, image=photo_organ,
             compound = tk.CENTER, borderwidth=0)
 
+        #Images should be referenciated like that because of a known
+        #bug in tkinter http://effbot.org/pyfaq/why-do-my-tkinter-images-not-appear.htm
         harpsichord.image = photo_harp
         tubular_bells.image = photo_tubular
         agogo.image = photo_agogo
         church_organ.image= photo_organ
         pan_flute.image = photo_flute
 
+        #Create the gris of the instruments
         harpsichord.grid(row = 1, column = 0)
         tubular_bells.grid(row = 2, column = 0)
         agogo.grid(row = 3, column = 0)
         pan_flute.grid(row = 4, column = 0)
         church_organ.grid(row = 5, column = 0)
 
-    def text_editor(self):
-        txt_edit = tk.Text(self)
-        self.columnconfigure(1, pad=5, weight=1)
-        self.rowconfigure(0, pad=1, weight=1)
-        txt_edit.grid(row=0, column=1, sticky="nsew")
-
     def create_widgets(self):
         self.instruments_widgets()
-        self.text_editor()
         self.operational_widgets()
+        self.editor.draw_frame()
+        self.music_widgets()
 
 root = tk.Tk()
 app = Gui(root)
