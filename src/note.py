@@ -4,7 +4,7 @@ from instrument import Instrument
 class Note:
     """ Class of musical notes """
     def __init__(self, name, midi_number, octave=4,
-                 instrument = Instrument("Piano", 1)):
+                 instrument = 1, volume = 100):
         #Name of the note
         self.name = name
         #Midi number of the note

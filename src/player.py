@@ -52,5 +52,5 @@ class Player:
             self.state = 'playing'
             self.pygame_player.music.play(0)
 
-    def stop_music(self):
+    def stop(self):
         """ Stop the music already in play, if it’s played again, start from the beginning """

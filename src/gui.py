@@ -59,7 +59,7 @@ class Gui(tk.Frame):
     def compile(self):
         """ Compile the current file to generate music. """
         text = self.editor.txt_area.get(1.0, tk.END)
-        self.parser.text_area = text
+        self.parser.text_area = text[:-1] #remove the last \n to avoid bugs
         self.parser.parse()
         self.music.generate()
         self.player.load_music('../temp/sample.mid')
@@ -94,18 +94,18 @@ class Gui(tk.Frame):
                 Compile: Compile the song into the music"""
 
         frame_music = tk.Frame(self, relief=tk.RAISED)
-        frame_music.grid(row = 6, column = 1)
+        frame_music.grid(row = 7, column = 1)
 
-        play_pause_button = tk.Button(frame_music, text='play',
+        play_pause_button = tk.Button(frame_music, text='Play',
                                      command=self.player.toogle_play_pause)
 
-        stop_button = tk.Button(frame_music, text='stop')
-                               #comand=self.player.stop())
+        stop_button = tk.Button(frame_music, text='Stop',
+                               command=self.player.stop())
 
-        compile_button = tk.Button(frame_music, text='compile',
+        compile_button = tk.Button(frame_music, text='Compile',
                                   command=self.compile)
 
-        load_config_button = tk.Button(frame_music, text='load configuration',
+        load_config_button = tk.Button(frame_music, text='Load Configuration',
                                   command=self.load_config_file)
 
 

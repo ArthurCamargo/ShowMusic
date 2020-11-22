@@ -27,7 +27,6 @@ class Music:
         self.octave = octave
         self.name = name
         self.notes = notes
-        self.volume = volume
         self.bpm = bpm
 
     def generate(self):
@@ -38,10 +37,10 @@ class Music:
         self.midi_file.addTempo(track, time, self.bpm)
 
         channel = 0
-        volume = self.volume
         duration = 1
 
         for i,note in enumerate(self.notes):
+            print(note.midi_number)
             current_instrument = note.instrument
             if i > 0:
                 old_instrument = self.notes[i-1].instrument
@@ -53,7 +52,7 @@ class Music:
                                                 current_instrument)
 
             self.midi_file.addNote(track, channel, note.midi_number,
-                                   i*2, duration, volume)
+                                   i*2, duration, note.volume)
 
         with open("../temp/" + self.name + ".mid" , 'wb') as out:
             self.midi_file.writeFile(out)
@@ -65,10 +64,10 @@ class Music:
 
     def add_note(self, note):
         """ Add a note to the music stream, so it can be played"""
-        if int(note) > 127:
+        if int(note) >= 127:
             note = 127
-        elif int(note) < 0:
-            note = 0
+        elif int(note) <= 0:
+            note.volume = 0
         current_instrument= self.instrument.midi_number
         self.notes.append(Note('', int(note), self.octave, current_instrument))
 

@@ -183,10 +183,10 @@ class Parser:
 
     def repeat(self):
         """Repeat the last command"""
-        function = self.last_command[0]
-        if function == 'note':
+        command = self.last_command[0]
+        if command == 'note':
             parameter = self.last_command[1]
-            print(parameter)
+            print(type(parameter))
             self.music.add_note(parameter)
         else:
             self.music.add_note(0)
