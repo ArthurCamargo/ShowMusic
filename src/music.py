@@ -81,6 +81,7 @@ class Music:
 
     def adjust_octave(self, option='set', parameter=1):
         """ Adjust the octave of the music"""
+        print(self.octave, option, parameter)
         self.octave = adjust(self.octave, option, parameter)
 
     def adjust_volume(self, option='set', parameter=1):

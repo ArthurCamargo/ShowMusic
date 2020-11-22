@@ -139,7 +139,7 @@ class Parser:
 
         operations = {
             'repeat':self.repeat,
-            'instrument':_music.adjust_octave,
+            'instrument':_music.adjust_instrument,
             'note':_music.add_note,
             'octave':_music.adjust_octave,
             'rand':_music.add_random_note,
