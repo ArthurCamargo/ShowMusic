@@ -1,7 +1,17 @@
+"""
+File: gui.py
+Author: Joao Martins
+Email: joaomaieron@gmail.com
+Description:
+    Main module of the application, handles the graphical user interface
+"""
+
 import tkinter as tk
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 from editor import Editor
 from player import Player
+from parser import Parser
+from music import Music
 
 class Gui(tk.Frame):
     """
@@ -13,7 +23,9 @@ class Gui(tk.Frame):
         self.master = master
         self.grid()
         self.editor = Editor(master)
-        #self.player = Player()
+        self.music = Music()
+        self.player = Player()
+        self.parser = Parser(self.music)
         self.create_widgets()
 
     def operational_widgets(self):
@@ -28,9 +40,9 @@ class Gui(tk.Frame):
         open_button = tk.Button(self, text="Load", command=self.open_file)
         quit_button = tk.Button(self, text="Quit", command=self.master.destroy)
 
-        quit_button.grid(row = 6, column = 6)
-        save_button.grid(row = 6, column = 7)
-        open_button.grid(row = 6, column = 8)
+        quit_button.grid(row = 8, column = 6)
+        save_button.grid(row = 8, column = 7)
+        open_button.grid(row = 8, column = 8)
 
     def save_file(self):
         """Save the current file as a new file."""
@@ -44,6 +56,13 @@ class Gui(tk.Frame):
             text = self.editor.txt_area.get(1.0, tk.END)
             output_file.write(text)
 
+    def compile(self):
+        """ Compile the current file to generate music. """
+        text = self.editor.txt_area.get(1.0, tk.END)
+        self.parser.text_area = text
+        self.parser.parse()
+        self.music.generate()
+
     def open_file(self):
         """Open a file for editing."""
         filepath = askopenfilename(
@@ -56,6 +75,15 @@ class Gui(tk.Frame):
             text = input_file.read()
             self.editor.txt_area.insert(tk.END, text)
 
+    def load_config_file(self):
+        """ Load a configuration file into the application"""
+        filepath = askopenfilename(
+            filetypes=[("Text Files", "*.sm"), ("All Files", "*.*")]
+        )
+        if not filepath:
+            return
+        self.parser.load_configuration(filepath)
+
     def music_widgets(self):
         """ Music related Widgets
 
@@ -67,18 +95,24 @@ class Gui(tk.Frame):
         frame_music = tk.Frame(self, relief=tk.RAISED)
         frame_music.grid(row = 6, column = 1)
 
-        play_pause_button= tk.Button(frame_music, text='play',
-                                compound = tk.CENTER)
+        play_pause_button = tk.Button(frame_music, text='play')
+                                     #command=self.player.toogle_play())
 
-        stop_button= tk.Button(frame_music, text='stop',
-                                  compound = tk.CENTER)
+        stop_button = tk.Button(frame_music, text='stop')
+                               #comand=self.player.stop())
 
-        compile_button= tk.Button(frame_music, text='compile',
-                               compound = tk.CENTER, command=self.save_file)
+        compile_button = tk.Button(frame_music, text='compile',
+                                  command=self.compile)
+
+        load_config_button = tk.Button(frame_music, text='load configuration',
+                                  command=self.load_config_file)
+
+
 
         play_pause_button.grid(row = 0, column = 0)
         stop_button.grid(row = 0, column = 1)
         compile_button.grid(row = 0, column = 2)
+        load_config_button.grid(row = 0, column = 3)
 
     def instruments_widgets(self):
         """ Instrument related Widgets """
@@ -123,11 +157,13 @@ class Gui(tk.Frame):
         church_organ.grid(row = 5, column = 0)
 
     def create_widgets(self):
+        """ Create the gui widget of the application """
+        self.music_widgets()
         self.instruments_widgets()
         self.operational_widgets()
         self.editor.draw_frame()
-        self.music_widgets()
 
-root = tk.Tk()
-app = Gui(root)
-app.mainloop()
+
+_app = Gui(tk.Tk())
+_app.parser.load_configuration("../config/config.sm")
+_app.mainloop()

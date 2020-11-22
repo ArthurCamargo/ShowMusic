@@ -1,5 +1,15 @@
+"""
+File: player.py
+Author: Joao Maieron
+Email: joaomaieron@gmail.com
+Description:
+    Module that manages the musics, volumes, instruments, and bpm
+    of the music
+"""
+
 import pygame
-from pygame import midi
+import time
+from pygame import mixer
 from instrument import Instrument
 from misc import adjust
 
@@ -8,39 +18,42 @@ class Player:
     Class that manages the player, pauses, plays,
         manage the volume, and the music
     """
-    def __init__(self, pygame_player = None, current_music = None, volume=100, state='paused', bpm=100):
-        self.pygame_player = pygame_player
+    def __init__(self,  current_music = None,
+                 current_instrument = Instrument("Piano", 1),
+                 volume=100,
+                 state='paused',
+                 bpm=100):
+        pygame.mixer.init()
+        self.pygame_player = pygame.mixer
         self.current_music = current_music
-        self.current_instrument = Instrument("Piano", 1)
+        self.current_instrument = current_instrument
         self.volume = volume
         self.state = state
-        self.bpm = bpm
 
     def adjust_volume(self, option = 'raise', parameter = '1'):
         """ Adjust the volume of the player """
         self.volume = adjust(self.volume, option, parameter)
 
+    def load_music(self, file_path):
+        """ Loads a music into the player"""
+        self.pygame_player.music.load(file_path)
+
     def set_instrument(self, instrument):
         """Set the current instrument """
         self.current_instrument = instrument
 
-    def playMusic():
-        """ Play a given music """
+    def toogle_play_pause(self):
+        """ Pause the music already in play, if it’s played again,
+        start from where it was paused """
+        if self.state == 'playing':
+            self.state = 'paused'
+            self.pygame_player.music.pause()
+        else:
+            self.state = 'playing'
+            self.pygame_player.music.play()
 
-    def pauseMusic():
-        """ Pause the music already in play, if it’s played again, start from where it was paused """
-
-    def stopMusic():
+    def stop_music():
         """ Stop the music already in play, if it’s played again, start from the beginning """
-
-    def increaseVolume():
-        """ Raise the volume of the player """
-
-    def decreaseVolume():
-        """ Lower the volume of the player """
-
-    def increaseBpm():
-        """ Increases the current Bpm """
-
-    def decreaseBpm():
-        """ Decreases the value of the Bpm """
+player = Player()
+player.load_music("../temp/Sample Name.mid")
+player.toogle_play_pause()

@@ -1,44 +1,41 @@
 import pygame
 import time
 import pygame.midi
+from midiutil.MidiFile import MIDIFile
 
-pygame.midi.init()
-player = pygame.midi.Output(0)
+# create your MIDI object
+mf = MIDIFile(1)     # only 1 track
+track = 0   # the only track
+time = 0    # start at the beginning
+channel = 0
 
+mf.addTrackName(track, time, "Sample Track")
+mf.addTempo(track, time, 120)
+mf.addProgramChange(track, channel, 2, 131)
+# add some notes
+volume = 100
+pitch = 60           # C4 (middle C)
+time = 0             # start on beat 0
+duration = 1         # 1 beat long
+mf.addNote(track, channel, pitch, time, duration, volume)
 
-player.set_instrument(1, 0)
-player.set_instrument(1, 1)
-player.set_instrument(126, 2)
-player.set_instrument(101, 3)
+pitch = 64           # E4
+time = 2             # start on beat 2
+duration = 1         # 1 beat long
+mf.addNote(track, channel, pitch, time, duration, volume)
 
-notes={'c': 24, 'C': 25, 'd': 26, 'D': 27,
-       'e': 28, 'f': 29, 'F': 30, 'g': 31,
-       'G': 32, 'a': 33, 'A': 34, 'b': 35, '-':0}
+pitch = 67           # G4
+time = 4             # start on beat 4
+duration = 1         # 1 beat long
+mf.addNote(track, channel, pitch, time, duration, volume)
 
-channel0 = ('--d---------------d---------------d---------------d---------------d-----------', 0, 5)
-channel1 = ('dd--a--G-g-f-dfgcc--a--G-g-f-dfg----a--G-g-f-dfg----a--G-g-f-dfgdd--a--G-g-f-d', 1, 4)
-channel2 = ('--------------------------------bb--------------AA----------------------------', 2, 3)
+# write it to disk
+with open("output.mid", 'wb') as outf:
+    mf.writeFile(outf)
 
-active_channel = [channel0 , channel1]
-
-def play(note, channel, octave):
-    player.note_on(note + (12*octave), 64, channel)
-    time.sleep(0.15)
-
-def stepPlay(active_channel, note_number):
-    num_silence = 0
-    for channel in active_channel:
-        note = channel[0][note_number]
-        if(note != '-'):
-            play(notes[note], channel[1], channel[2])
-        else:
-            num_silence += 1
-        if(num_silence == len(active_channel)):
-            num_silence = 0
-            time.sleep(0.15)
-
-
-for i in range(len(channel0[0])):
-    stepPlay(active_channel, i)
-
-del player
+pygame.mixer.init()
+pygame.mixer.music.load("output.mid")
+pygame.mixer.music.play(0)
+length = pygame.time.get_ticks()
+while pygame.mixer.music.get_busy():
+    pygame.time.wait(length)
