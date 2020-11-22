@@ -163,7 +163,6 @@ class Gui(tk.Frame):
         self.operational_widgets()
         self.editor.draw_frame()
 
-
 _app = Gui(tk.Tk())
 _app.parser.load_configuration("../config/config.sm")
 _app.mainloop()

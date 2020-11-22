@@ -52,8 +52,5 @@ class Player:
             self.state = 'playing'
             self.pygame_player.music.play()
 
-    def stop_music():
+    def stop_music(self):
         """ Stop the music already in play, if it’s played again, start from the beginning """
-player = Player()
-player.load_music("../temp/Sample Name.mid")
-player.toogle_play_pause()

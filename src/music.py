@@ -54,7 +54,7 @@ class Music:
         with open("../temp/" + self.name + ".mid" , 'wb') as out:
             self.midi_file.writeFile(out)
 
-    def adjust_instrument(self, option='set', parameter='1'):
+    def adjust_instrument(self, option='set', parameter=1):
         """  Adjust the main instrument of the music"""
         self.instrument.midi_number = adjust(self.instrument.midi_number,
                                              option, parameter)
@@ -79,15 +79,15 @@ class Music:
         note_number  = rng.randint(min, max)
         self.add_note(note_number)
 
-    def adjust_octave(self, option='set', parameter='1'):
+    def adjust_octave(self, option='set', parameter=1):
         """ Adjust the octave of the music"""
         self.octave = adjust(self.octave, option, parameter)
 
-    def adjust_volume(self, option='set', parameter='1'):
+    def adjust_volume(self, option='set', parameter=1):
         """ Adjust the volume of the music"""
         self.volume = adjust(self.volume, option, parameter)
 
-    def adjust_bpm(self, option='set', parameter='1'):
+    def adjust_bpm(self, option='set', parameter=1):
         """ Adjust the bpm of the music"""
         self.bpm = adjust(self.bpm, option, parameter)
 

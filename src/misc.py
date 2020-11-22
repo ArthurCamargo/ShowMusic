@@ -1,5 +1,4 @@
-
-def adjust(variable, option='set', parameter='1'):
+def adjust(variable, option='set', parameter=1):
     """ Adjust the variable of the current music
         Attributes:
 
@@ -26,4 +25,5 @@ def adjust(variable, option='set', parameter='1'):
         'half': variable / 2**parameter,
         'double': variable * 2**parameter,
     }
-    return operation[option]
+    result = operation[option]
+    return result

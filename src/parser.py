@@ -58,6 +58,7 @@ class Parser:
         self.text_area = []
         self.alias = {}
         self.commands = {}
+        self.last_command = None
 
     def check_alias(self, token):
         """ Check if some substitution is needed in the token"""
@@ -131,7 +132,6 @@ class Parser:
 
         for line in self.text_area:
             for char in line:
-                print(char)
                 self.interpret(self.music, char, default)
 
     def interpret(self, _music, char, default):
@@ -160,6 +160,7 @@ class Parser:
             return
 
         full_instruction = instruction.split(':')
+        self.last_command = full_instruction
 
         if len(full_instruction) == 1:
             function = full_instruction[0]
@@ -171,16 +172,21 @@ class Parser:
             if isinstance(parameters, list):
                 parameters = parameters.split()
                 options = parameters[0]
-                parameter = parameters[1]
+                parameter = int(parameters[1])
 
                 operations[function](options,parameter)
 
-            parameter = parameters
+            parameter = int(parameters)
             operations[function](parameter)
 
         else:
-            operations[function]
+            operations[function]()
 
     def repeat(self):
-        """repeat the last command"""
-        """ Increases the current octave """
+        """Repeat the last command"""
+        function = self.last_command[0]
+        if function == 'note':
+            parameter = self.last_command[1]
+            self.music.add_note(parameter)
+        else:
+            self.music.add_note(0)
