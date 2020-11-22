@@ -18,7 +18,6 @@ def adjust(variable, parameter = 1, option='set'):
                     'half' will half parameter times
                     'double' will double the parameter times
                     """
-    print(variable, parameter)
     operation = {
         'set': parameter,
         'raise': variable + parameter,

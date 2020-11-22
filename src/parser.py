@@ -153,11 +153,8 @@ class Parser:
             instruction = self.commands.get('\\space', default)
         elif char == '\n':
             instruction = self.commands.get('\\n', default)
-        elif char in self.commands:
-            instruction = self.commands.get(char, default)
         else:
             instruction = self.commands.get(char, default)
-            return
 
         full_instruction = instruction.split(':')
         self.last_command = full_instruction

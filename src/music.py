@@ -42,24 +42,24 @@ class Music:
         duration = 1
 
         for i,note in enumerate(self.notes):
-
-            old_instrument = self.notes[i-1].instrument
             current_instrument = note.instrument
+            if i > 0:
+                old_instrument = self.notes[i-1].instrument
+            else:
+                old_instrument = current_instrument
 
-            if old_instrument.midi_number != current_instrument.midi_number:
+            if old_instrument != current_instrument:
                 self.midi_file.addProgramChange(track, channel, i*2,
-                                                current_instrument.midi_number)
+                                                current_instrument)
 
             self.midi_file.addNote(track, channel, note.midi_number,
                                    i*2, duration, volume)
-            print(note.midi_number)
 
         with open("../temp/" + self.name + ".mid" , 'wb') as out:
             self.midi_file.writeFile(out)
 
     def adjust_instrument(self, parameter = 1, option='set'):
         """  Adjust the main instrument of the music"""
-        print(type(parameter), type(self.instrument.midi_number), option)
         self.instrument.midi_number = adjust(self.instrument.midi_number,
                                              parameter, option)
 
@@ -69,7 +69,8 @@ class Music:
             note = 127
         elif int(note) < 0:
             note = 0
-        self.notes.append(Note('', int(note), self.octave, self.instrument))
+        current_instrument= self.instrument.midi_number
+        self.notes.append(Note('', int(note), self.octave, current_instrument))
 
     def add_random_note(self, minimum = 0, maximum = 127):
         """ Add a random note in the music strem"""
@@ -85,7 +86,6 @@ class Music:
 
     def adjust_octave(self, parameter = 1, option='set'):
         """ Adjust the octave of the music"""
-        print(self.octave, option, parameter)
         self.octave = adjust(self.octave, parameter, option)
 
     def adjust_volume(self,  parameter=1, option='set'):
@@ -95,4 +95,3 @@ class Music:
     def adjust_bpm(self,  parameter=1, option='set'):
         """ Adjust the bpm of the music"""
         self.bpm = adjust(self.bpm, parameter, option)
-

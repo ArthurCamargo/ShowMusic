@@ -13,9 +13,3 @@ class Note:
         self.octave = octave
         #Instrument that the note will be played
         self.instrument = instrument
-
-    def __str__(self):
-        string = ( 'Number(number=' + str(self.midi_number) + '), '
-                  +'Octave(octave=' + str(self.octave) +')' )
-        return string
-
