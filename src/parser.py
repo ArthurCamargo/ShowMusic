@@ -157,10 +157,10 @@ class Parser:
             instruction = self.commands.get(char, default)
 
         full_instruction = instruction.split(':')
-        self.last_command = full_instruction
 
         if len(full_instruction) == 1:
             function = full_instruction[0]
+            operations[function]()
 
         elif len(full_instruction) == 2:
             function = full_instruction[0]
@@ -179,11 +179,14 @@ class Parser:
         else:
             operations[function]()
 
+        self.last_command = full_instruction
+
     def repeat(self):
         """Repeat the last command"""
         function = self.last_command[0]
         if function == 'note':
             parameter = self.last_command[1]
+            print(parameter)
             self.music.add_note(parameter)
         else:
             self.music.add_note(0)
