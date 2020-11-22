@@ -46,8 +46,9 @@ class Music:
             old_instrument = self.notes[i-1].instrument
             current_instrument = note.instrument
 
-            if old_instrument != current_instrument:
-                self.midi_file.addProgramChange(track, channel, i*2, current_instrument)
+            if old_instrument.midi_number != current_instrument.midi_number:
+                self.midi_file.addProgramChange(track, channel, i*2,
+                                                current_instrument.midi_number)
 
             self.midi_file.addNote(track, channel, note.midi_number,
                                    i*2, duration, volume)
