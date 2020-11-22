@@ -17,7 +17,7 @@ class Music:
     Class that manage the channels, instruments,
         notes and composes the music in general
     """
-    def __init__(self, name = 'Sample Name',
+    def __init__(self, name = 'sample',
                  notes = [], bpm=120,
                  instrument = Instrument("Piano", 1),
                  volume = 100, octave = 4, actual_time = 0):
@@ -51,13 +51,16 @@ class Music:
 
             self.midi_file.addNote(track, channel, note.midi_number,
                                    i*2, duration, volume)
+            print(note.midi_number)
+
         with open("../temp/" + self.name + ".mid" , 'wb') as out:
             self.midi_file.writeFile(out)
 
-    def adjust_instrument(self, option='set', parameter=1):
+    def adjust_instrument(self, parameter = 1, option='set'):
         """  Adjust the main instrument of the music"""
+        print(type(parameter), type(self.instrument.midi_number), option)
         self.instrument.midi_number = adjust(self.instrument.midi_number,
-                                             option, parameter)
+                                             parameter, option)
 
     def add_note(self, note):
         """ Add a note to the music stream, so it can be played"""
@@ -79,16 +82,16 @@ class Music:
         note_number  = rng.randint(min, max)
         self.add_note(note_number)
 
-    def adjust_octave(self, option='set', parameter=1):
+    def adjust_octave(self, parameter = 1, option='set'):
         """ Adjust the octave of the music"""
         print(self.octave, option, parameter)
-        self.octave = adjust(self.octave, option, parameter)
+        self.octave = adjust(self.octave, parameter, option)
 
-    def adjust_volume(self, option='set', parameter=1):
+    def adjust_volume(self,  parameter=1, option='set'):
         """ Adjust the volume of the music"""
-        self.volume = adjust(self.volume, option, parameter)
+        self.volume = adjust(self.volume, parameter, option)
 
-    def adjust_bpm(self, option='set', parameter=1):
+    def adjust_bpm(self,  parameter=1, option='set'):
         """ Adjust the bpm of the music"""
-        self.bpm = adjust(self.bpm, option, parameter)
+        self.bpm = adjust(self.bpm, parameter, option)
 

@@ -62,6 +62,7 @@ class Gui(tk.Frame):
         self.parser.text_area = text
         self.parser.parse()
         self.music.generate()
+        self.player.load_music('../temp/sample.mid')
 
     def open_file(self):
         """Open a file for editing."""
@@ -95,8 +96,8 @@ class Gui(tk.Frame):
         frame_music = tk.Frame(self, relief=tk.RAISED)
         frame_music.grid(row = 6, column = 1)
 
-        play_pause_button = tk.Button(frame_music, text='play')
-                                     #command=self.player.toogle_play())
+        play_pause_button = tk.Button(frame_music, text='play',
+                                     command=self.player.toogle_play_pause)
 
         stop_button = tk.Button(frame_music, text='stop')
                                #comand=self.player.stop())

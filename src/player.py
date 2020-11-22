@@ -50,7 +50,10 @@ class Player:
             self.pygame_player.music.pause()
         else:
             self.state = 'playing'
-            self.pygame_player.music.play()
+            self.pygame_player.music.play(0)
+            length = pygame.time.get_ticks()
+            while pygame.mixer.music.get_busy():
+                pygame.time.wait(length)
 
     def stop_music(self):
         """ Stop the music already in play, if it’s played again, start from the beginning """
