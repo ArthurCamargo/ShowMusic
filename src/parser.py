@@ -92,7 +92,7 @@ class Parser:
             self.commands[tokens[0]] = tokens[1]
 
     def config_alias(self, line):
-        """ Insert the command configuration in the dictionary
+        """ Insert the alias configuration in the dictionary
             of aliases"""
         if not'[' in line and not ']' in line:
             tokens = line.split("=")

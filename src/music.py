@@ -7,6 +7,7 @@ Description:
 """
 
 import random as rng
+import os
 from midiutil.MidiFile import MIDIFile
 from note import Note
 from instrument import Instrument
@@ -50,7 +51,6 @@ class Music:
                  notes = [], bpm=120,
                  instrument = Instrument("Piano", 1),
                  volume = 100, octave = 4, actual_time = 0):
-        self.midi_file = MIDIFile(1)
         self.actual_time = actual_time
         self.instrument = instrument
         self.octave = octave
@@ -58,6 +58,7 @@ class Music:
         self.notes = notes
         self.bpm = bpm
         self.volume = volume
+        self.midi_file = MIDIFile(1)
 
     def generate(self):
         """ Generate a temporary midi_file for the music"""
@@ -84,7 +85,8 @@ class Music:
             self.midi_file.addNote(track, channel, note.midi_number * note.octave,
                                    i*2, duration, note.volume)
 
-        with open("../temp/" + self.name + ".mid" , 'wb') as out:
+        file_name = "../temp/" + self.name + ".mid"
+        with open(file_name , 'wb') as out:
             self.midi_file.writeFile(out)
 
     def adjust_instrument(self, parameter = 1, option='set'):

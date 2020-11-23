@@ -62,10 +62,8 @@ class Gui(tk.Frame):
 
     def compile(self):
         """ Compile the current file to generate music. """
-        self.music.notes = []
         text = self.editor.txt_area.get(1.0, tk.END)
         self.parser.text_area = text[:-1] #remove the last \n to avoid bugs
-        print(self.parser.text_area)
         self.parser.parse()
         self.music.generate()
         self.player.load_music('../temp/sample.mid')
