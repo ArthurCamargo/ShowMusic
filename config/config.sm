@@ -34,13 +34,13 @@ PanFlute     = 76
 Harpsichord  = 7
 ChurchOrgan  = 20
 
-Dó   = (note:24)
-Ré   = (note:26)
-Mi   = (note:28)
-Fá   = (note:29)
-Sol  = (note:31)
-Lá   = (note:33)
-Si   = (note:35)
+Dó   = (note:12)
+Ré   = (note:14)
+Mi   = (note:16)
+Fá   = (note:17)
+Sol  = (note:19)
+Lá   = (note:21)
+Si   = (note:23)
 
 * Mapping
 
@@ -73,7 +73,7 @@ Si   = (note:35)
 [!  -> (instrument:Agogo)]
 [.  -> (instrument:Agogo)]
 
-[\space -> (volume:raise 1)]
+[\space -> (volume:double 1)]
 [\default -> (repeat)]
 [\newline -> (instrument:TubularBells)]
 

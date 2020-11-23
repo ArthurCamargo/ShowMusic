@@ -1,3 +1,11 @@
+"""
+File: note.py
+Author: Arthur Camargo
+Email: arthurcamargo13@gmail.com
+Description:
+    Module that handles the notes
+"""
+
 from pygame import midi
 from instrument import Instrument
 
@@ -15,3 +23,6 @@ class Note:
         self.instrument = instrument
         #Volume of the note
         self.volume = volume
+
+    def __str__(self):
+        print(self.name, self.midi_number, self.instrument, self.volume)

@@ -8,9 +8,38 @@ Description:
 
 import random as rng
 from midiutil.MidiFile import MIDIFile
-from misc import adjust
 from note import Note
 from instrument import Instrument
+
+def adjust(variable, parameter = 1, option='set'):
+    """ Adjust the variable of the current music
+        Attributes:
+
+            option:
+                option about how to ajust, can be:
+                    'set' to set a raw value
+                    'raise' to increase the actual value
+                    'lower' to decrease the actual value
+                    'half' to half the actual value
+                    'double' to double the actual value
+
+            parameter:
+                parameter about how to adjust,
+                    'set' will set the actual to that parameter
+                    'raise' will increase that parameter
+                    'lower' will decrease that parameter
+                    'half' will half parameter times
+                    'double' will double the parameter times
+                    """
+    operation = {
+        'set': parameter,
+        'raise': variable + parameter,
+        'lower': variable - parameter,
+        'half': variable / 2**parameter,
+        'double': variable * 2**parameter,
+    }
+    result = operation[option]
+    return result
 
 class Music:
     """
@@ -52,7 +81,7 @@ class Music:
                 self.midi_file.addProgramChange(track, channel, i*2,
                                                 current_instrument)
 
-            self.midi_file.addNote(track, channel, note.midi_number,
+            self.midi_file.addNote(track, channel, note.midi_number * note.octave,
                                    i*2, duration, note.volume)
 
         with open("../temp/" + self.name + ".mid" , 'wb') as out:
@@ -66,32 +95,40 @@ class Music:
     def add_note(self, note):
         """ Add a note to the music stream, so it can be played"""
         note_volume = self.volume
-        if int(note) >= 127:
-            note = 127
-        elif int(note) <= 0:
-            note = 0
+        if int(note) >= 23:
+            note = 23
+        elif int(note) <= 12:
+            note = 12
         current_instrument= self.instrument.midi_number
-        self.notes.append(Note('', int(note), self.octave, current_instrument,note_volume))
+        self.notes.append(Note('', int(note), self.octave, current_instrument, note_volume))
 
-    def add_random_note(self, minimum = 0, maximum = 127):
+    def add_random_note(self, minimum = 12, maximum = 23):
         """ Add a random note in the music strem"""
-        if minimum < 0:
-            minimum = 0
-        elif maximum > 127:
-            maximum = 127
+        if minimum < 12:
+            minimum = 12
+        elif maximum > 23:
+            maximum = 23
         elif minimum > maximum:
             minimum = maximum
 
-        note_number  = rng.randint(min, max)
+        note_number = rng.randint(min, max)
         self.add_note(note_number)
 
     def adjust_octave(self, parameter = 1, option='set'):
         """ Adjust the octave of the music"""
         self.octave = adjust(self.octave, parameter, option)
+        if self.octave > 8:
+            self.octave = 8
+        elif self.octave < 0:
+            self.octave = 0
 
-    def adjust_volume(self,  parameter=1, option='set'):
+    def adjust_volume(self,  parameter=1, option='double'):
         """ Adjust the volume of the music"""
         self.volume = adjust(self.volume, parameter, option)
+        if self.volume> 127:
+            self.volume= 127
+        elif self.volume< 0:
+            self.volume= 0
 
     def adjust_bpm(self,  parameter=1, option='set'):
         """ Adjust the bpm of the music"""

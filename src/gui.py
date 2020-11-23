@@ -36,13 +36,17 @@ class Gui(tk.Frame):
                 Save: Saves the file
                 Open: Open the file
                 Quit: Quit the app"""
+
+        frame_op= tk.Frame(self, relief=tk.RAISED)
+        frame_op.grid(row = 9, column = 1)
+
         save_button = tk.Button(self, text="Save", command=self.save_file)
         open_button = tk.Button(self, text="Load", command=self.open_file)
         quit_button = tk.Button(self, text="Quit", command=self.master.destroy)
 
-        quit_button.grid(row = 8, column = 6)
-        save_button.grid(row = 8, column = 7)
-        open_button.grid(row = 8, column = 8)
+        quit_button.grid(row = 9, column = 2)
+        save_button.grid(row = 9, column = 3)
+        open_button.grid(row = 9, column = 4)
 
     def save_file(self):
         """Save the current file as a new file."""
@@ -94,13 +98,13 @@ class Gui(tk.Frame):
                 Compile: Compile the song into the music"""
 
         frame_music = tk.Frame(self, relief=tk.RAISED)
-        frame_music.grid(row = 7, column = 1)
+        frame_music.grid(row = 10, column = 3)
 
         play_pause_button = tk.Button(frame_music, text='Play',
-                                     command=self.player.toogle_play_pause)
+                                     command=self.player.play)
 
         stop_button = tk.Button(frame_music, text='Stop',
-                               command=self.player.stop())
+                               command=self.player.stop)
 
         compile_button = tk.Button(frame_music, text='Compile',
                                   command=self.compile)
@@ -127,19 +131,19 @@ class Gui(tk.Frame):
         photo_flute= tk.PhotoImage(file = '../icons/pan-flute.png')
         photo_organ= tk.PhotoImage(file = '../icons/organ.png')
 
-        harpsichord = tk.Button(frame_instruments, image=photo_harp,
+        harpsichord = tk.Label(frame_instruments, image=photo_harp,
             compound = tk.CENTER, borderwidth=0)
 
-        tubular_bells = tk.Button(frame_instruments, image=photo_tubular,
+        tubular_bells = tk.Label(frame_instruments, image=photo_tubular,
             compound = tk.CENTER, borderwidth=0)
 
-        agogo = tk.Button(frame_instruments, image=photo_agogo,
+        agogo = tk.Label(frame_instruments, image=photo_agogo,
             compound = tk.CENTER, borderwidth=0)
 
-        pan_flute = tk.Button(frame_instruments, image=photo_flute,
+        pan_flute = tk.Label(frame_instruments, image=photo_flute,
             compound = tk.CENTER, borderwidth=0)
 
-        church_organ = tk.Button(frame_instruments, image=photo_organ,
+        church_organ = tk.Label(frame_instruments, image=photo_organ,
             compound = tk.CENTER, borderwidth=0)
 
         #Images should be referenciated like that because of a known

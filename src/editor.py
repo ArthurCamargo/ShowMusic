@@ -12,7 +12,7 @@ class Editor(tk.Frame):
 
     def draw_frame(self):
         """ Create the editor frame """
-        self.columnconfigure(1, pad=5, weight=1)
-        self.rowconfigure(0, pad=1, weight=1)
+        self.columnconfigure(1, weight=1)
+        self.rowconfigure(0,  weight=1)
         self.txt_area.grid(row=0, column=1, sticky="nsew")
         self.stream_of_char = self.txt_area.get(1.0, tk.END)
