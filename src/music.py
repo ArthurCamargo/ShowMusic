@@ -70,7 +70,7 @@ class Music:
         duration = 1
 
         for i,note in enumerate(self.notes):
-            print(note.midi_number)
+            print(note)
             current_instrument = note.instrument
             if i > 0:
                 old_instrument = self.notes[i-1].instrument
@@ -94,11 +94,17 @@ class Music:
 
     def add_note(self, note):
         """ Add a note to the music stream, so it can be played"""
+        note = int(note)
         note_volume = self.volume
-        if int(note) >= 23:
+        if note >= 23:
             note = 23
-        elif int(note) <= 12:
+        elif note <= 12 and note > 0:
             note = 12
+        elif note == 0:
+            note_volume = 0
+        else:
+            note_volume = 0
+
         current_instrument= self.instrument.midi_number
         self.notes.append(Note('', int(note), self.octave, current_instrument, note_volume))
 

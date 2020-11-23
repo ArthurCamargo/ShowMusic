@@ -6,13 +6,10 @@ Description:
     Module that handles the notes
 """
 
-from pygame import midi
-from instrument import Instrument
-
 class Note:
     """ Class of musical notes """
-    def __init__(self, name, midi_number, octave=4,
-                 instrument = 1, volume = 100):
+    def __init__(self, name, midi_number, octave=0,
+                 instrument = 1, volume = 30):
         #Name of the note
         self.name = name
         #Midi number of the note
@@ -25,4 +22,9 @@ class Note:
         self.volume = volume
 
     def __str__(self):
-        print(self.name, self.midi_number, self.instrument, self.volume)
+        string = ("Name:" + str(self.name) + ' '
+                 "Midi:" + str(self.midi_number) + ' '
+                 "Octave:" + str(self.octave) + ' '
+                 "Instrument:" + str(self.instrument) + ' '
+                 "Volume:" + str(self.volume))
+        return string
