@@ -149,7 +149,7 @@ class Parser:
         }
 
         #especial cases
-        if char == '\\space':
+        if char == ' ':
             instruction = self.commands.get('\\space', default)
         elif char == '\n':
             instruction = self.commands.get('\\n', default)
@@ -162,22 +162,17 @@ class Parser:
             function = full_instruction[0]
             operations[function]()
 
-        elif len(full_instruction) == 2:
-            function = full_instruction[0]
-            parameters = full_instruction[1]
-
-            if isinstance(parameters, list):
-                parameters = parameters.split()
-                options = parameters[0]
-                parameter = int(parameters[1])
-
-                operations[function](options,parameter)
-
-            parameter = int(parameters)
-            operations[function](parameter)
-
         else:
-            operations[function]()
+            function = full_instruction[0]
+            parameter = full_instruction[1]
+            option_parameter = parameter.split(' ')
+            if len(option_parameter) > 1:
+                option = option_parameter[0]
+                parameter = option_parameter[1]
+                operations[function](int(parameter), option)
+            else:
+                operations[function](int(parameter))
+
 
         self.last_command = full_instruction
 

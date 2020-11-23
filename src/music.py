@@ -28,6 +28,7 @@ class Music:
         self.name = name
         self.notes = notes
         self.bpm = bpm
+        self.volume = volume
 
     def generate(self):
         """ Generate a temporary midi_file for the music"""
@@ -64,12 +65,13 @@ class Music:
 
     def add_note(self, note):
         """ Add a note to the music stream, so it can be played"""
+        note_volume = self.volume
         if int(note) >= 127:
             note = 127
         elif int(note) <= 0:
-            note.volume = 0
+            note = 0
         current_instrument= self.instrument.midi_number
-        self.notes.append(Note('', int(note), self.octave, current_instrument))
+        self.notes.append(Note('', int(note), self.octave, current_instrument,note_volume))
 
     def add_random_note(self, minimum = 0, maximum = 127):
         """ Add a random note in the music strem"""

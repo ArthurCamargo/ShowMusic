@@ -13,3 +13,5 @@ class Note:
         self.octave = octave
         #Instrument that the note will be played
         self.instrument = instrument
+        #Volume of the note
+        self.volume = volume
